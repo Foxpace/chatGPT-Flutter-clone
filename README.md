@@ -1,6 +1,6 @@
-# Chat GPT Flutter clone
+# ChatGPT Flutter clone
 
-Simple project for demonstration purposes. Interconnects the Flutter UI with Chat GPT API. 
+Simple project for demonstration purposes. Interconnects the Flutter UI with ChatGPT API. 
 
 ## Disclaimer 
 
