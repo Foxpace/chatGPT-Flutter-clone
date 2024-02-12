@@ -9,5 +9,6 @@ OpenAI key should be stored at the remote server as a secret. Client device shou
 is a chance of possible credentials leak. 
 
 ## Final result
-
-![Alt Text](result.gif)
+<p align="center">
+<img src="result.gif" width="300">
+</p>
