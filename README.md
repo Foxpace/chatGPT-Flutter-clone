@@ -1,4 +1,4 @@
-# Chat GPT client
+# Chat GPT Flutter clone
 
 Simple project for demonstration purposes. Interconnects the Flutter UI with Chat GPT API. 
 
