@@ -4,10 +4,18 @@ sealed class ChatState {}
 
 class ChatContent extends ChatState {
 
+  bool get isEmpty => messages.isEmpty;
   final List<ChatMessage> messages;
 
   ChatContent(this.messages);
 
+}
+
+class ChatLoading extends ChatState {
+
+  final List<ChatMessage> messages;
+
+  ChatLoading(this.messages);
 }
 
 class ChatError extends ChatState {
@@ -17,3 +25,4 @@ class ChatError extends ChatState {
   ChatError(this.errorMessage);
 
 }
+

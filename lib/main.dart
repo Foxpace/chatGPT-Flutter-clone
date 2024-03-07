@@ -10,16 +10,14 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => BlocProvider<ChatBloc>(
-    create: (_) => ChatBloc(),
-    child: MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
         title: 'Chat-GPT client',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
           useMaterial3: true,
         ),
-        home: const MainScreen(),
-      ),
-  );
+        home: BlocProvider<ChatBloc>(
+            create: (_) => ChatBloc(), child: const MainScreen()),
+      );
 }

@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:chat_gpt_client/model/chat_personality.dart';
-import 'package:chat_gpt_client/repo/chat_gpt_secret.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:chat_gpt_client/model/chat_message.dart';
+
+import 'chat_gpt_secret.dart';
 
 class ChatGptRepo {
 
@@ -52,3 +53,4 @@ class ChatGptRepo {
   }
 
 }
+

@@ -5,34 +5,34 @@ import 'package:chat_gpt_client/repo/chat_gpt_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatBloc extends Cubit<ChatState> {
-  bool _processing = false;
+
   final _chatRepo = ChatGptRepo();
 
   ChatBloc() : super(ChatContent([]));
 
-  Future<void> processMessage(String text) async {
-    if (text.isEmpty) {
+  Future<void> processMessage(String newMessage) async {
+
+    final isLoading = switch (state) {
+      ChatLoading() => true,
+      ChatState() => false
+    };
+
+    if (isLoading || newMessage.isEmpty) {
       return;
     }
-
-    if (_processing) {
-      return;
-    }
-
-    _processing = true;
-    await _processMessages(text);
-    _processing = false;
-  }
-
-  Future<void> _processMessages(String text) async {
 
     final messages = switch (state) {
       ChatContent(messages: final messages) => messages,
-      ChatError() => <ChatMessage>[]
+      ChatState() => <ChatMessage>[]
     };
 
-    messages.add(ChatMessage(text, ChatPersonality.user));
-    emit(ChatContent(messages));
+    messages.add(ChatMessage(newMessage, ChatPersonality.user));
+
+    emit(ChatLoading(messages));
+    return _processMessages(messages, newMessage);
+  }
+
+  Future<void> _processMessages(List<ChatMessage> messages, String newMessage) async {
 
     final ChatMessage aiMessage;
 

@@ -9,15 +9,12 @@ class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: BlocBuilder<ChatBloc, ChatState>(
-            builder: (context, state) => switch (state) {
-                  ChatContent(messages: final messages) =>
-                    ChatUi(messages: messages),
-                  ChatError(errorMessage: final errorMessage) =>
-                    ChatErrorUi(errorMessage: errorMessage)
-                }),
-      ));
+  Widget build(BuildContext context) => BlocBuilder<ChatBloc, ChatState>(
+      builder: (context, state) => switch (state) {
+            ChatContent(messages: final messages) ||
+            ChatLoading(messages: final messages) =>
+              ChatUi(messages: messages),
+            ChatError(errorMessage: final errorMessage) =>
+              ChatErrorUi(errorMessage: errorMessage),
+          });
 }

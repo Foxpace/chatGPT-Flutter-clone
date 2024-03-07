@@ -1,6 +1,11 @@
 # ChatGPT Flutter clone
 
 Simple project for demonstration purposes. Interconnects the Flutter UI with ChatGPT API. 
+To enable this project to work with chatGPT - go to the:
+
+**lib/repo/chat_gpt_secret.dart**
+
+And post your key there into the secret field. 
 
 ## Disclaimer 
 
