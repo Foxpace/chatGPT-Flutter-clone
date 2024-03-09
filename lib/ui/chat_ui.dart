@@ -5,18 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatUi extends StatelessWidget {
+  final bool isLoading;
   final List<ChatMessage> messages;
 
-  const ChatUi({super.key, required this.messages});
+  const ChatUi({super.key, required this.messages, required this.isLoading});
 
   @override
-  Widget build(BuildContext context) => Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
+  Widget build(BuildContext context) => Column(children: [
         ChatMessages(
           messages: messages,
         ),
-        ChatTextField()
+        ChatTextField(isLoading: isLoading)
       ]);
 }
 
@@ -27,38 +26,29 @@ class ChatMessages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
-    child: messages.isEmpty
-        ? const Center(
-            child: Text("Start writing something!"),
-          )
-        : SingleChildScrollView(
-          reverse: true,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: messages
-                    .map((message) => ChatMessageUi(
-                          message: message,
-                        ))
-                    .toList(),
-              ),
-          ),
-        ),
-  );
+        child: messages.isEmpty
+            ? const Center(
+                child: Text("Start writing something!"),
+              )
+            : ListView.builder(
+                itemCount: messages.length,
+                reverse: true,
+                itemBuilder: (context, index) => ChatMessageUi(
+                    message: messages[messages.length - index - 1])),
+      );
 }
 
 class ChatTextField extends StatelessWidget {
+  final bool isLoading;
   final controller = TextEditingController();
 
-  ChatTextField({super.key});
+  ChatTextField({super.key, required this.isLoading});
 
   @override
   Widget build(BuildContext context) => Container(
-    color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-    height: 80,
-    child: Row(
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+        height: 80,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -73,22 +63,25 @@ class ChatTextField extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(
-                onPressed: () => processMessage(context),
-                icon: const Icon(Icons.send))
+            isLoading
+                ? const CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : IconButton(
+                    onPressed: () => processMessage(context),
+                    icon: const Icon(Icons.send))
           ],
         ),
-  );
+      );
 
   void processMessage(BuildContext context) {
-    if (!context.mounted) {
-      return;
-    }
-
+    // gets message and replaces it with blank
     final text = controller.text;
     controller.text = "";
 
     BlocProvider.of<ChatBloc>(context).processMessage(text);
+
+    // removes keyboard
     FocusManager.instance.primaryFocus?.unfocus();
   }
 }
