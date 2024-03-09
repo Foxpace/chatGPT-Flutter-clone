@@ -1,5 +1,6 @@
 import 'package:chat_gpt_client/chat_bloc.dart';
 import 'package:chat_gpt_client/main_screen.dart';
+import 'package:chat_gpt_client/repo/chat_gpt_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: BlocProvider<ChatBloc>(
-            create: (_) => ChatBloc(), child: const MainScreen()),
+            create: (_) => ChatBloc(ChatGptRepo()), child: const MainScreen()),
       );
 }

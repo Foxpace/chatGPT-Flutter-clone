@@ -1,14 +1,14 @@
 import 'package:chat_gpt_client/model/chat_message.dart';
 import 'package:chat_gpt_client/model/chat_personality.dart';
 import 'package:chat_gpt_client/model/chat_state.dart';
-import 'package:chat_gpt_client/repo/chat_gpt_repo.dart';
+import 'package:chat_gpt_client/repo/chat_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatBloc extends Cubit<ChatState> {
 
-  final _chatRepo = ChatGptRepo();
+  final ChatRepo _chatRepo;
 
-  ChatBloc() : super(ChatContent([]));
+  ChatBloc(this._chatRepo) : super(ChatContent([]));
 
   Future<void> processMessage(String newMessage) async {
 
@@ -37,7 +37,7 @@ class ChatBloc extends Cubit<ChatState> {
     final ChatMessage aiMessage;
 
     try {
-      aiMessage = await _chatRepo.processMessages(messages);
+      aiMessage = await _chatRepo.getResponse(messages);
     } catch (e) {
       emit(ChatError(e.toString()));
       return;
